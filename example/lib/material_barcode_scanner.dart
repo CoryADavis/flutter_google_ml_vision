@@ -36,8 +36,7 @@ class MaterialBarcodeScanner extends StatefulWidget {
   _MaterialBarcodeScannerState createState() => _MaterialBarcodeScannerState();
 }
 
-class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
-    with TickerProviderStateMixin {
+class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner> with TickerProviderStateMixin {
   CameraController _cameraController;
   AnimationController _animationController;
   String _scannerHint;
@@ -47,14 +46,13 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
   AnimationState _currentState = AnimationState.search;
   CustomPainter _animationPainter;
   int _animationStart = DateTime.now().millisecondsSinceEpoch;
-  final BarcodeDetector _barcodeDetector =
-      GoogleVision.instance.barcodeDetector();
+  final BarcodeDetector _barcodeDetector = GoogleVision.instance.barcodeDetector();
 
   @override
   void initState() {
     super.initState();
 
-    SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: <SystemUiOverlay>[]);
     SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp],
     );
@@ -123,9 +121,7 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
         rectangle: Rectangle(
           width: widget.validRectangle.width,
           height: widget.validRectangle.height,
-          color: newState == AnimationState.endSearch
-              ? Colors.transparent
-              : Colors.white,
+          color: newState == AnimationState.endSearch ? Colors.transparent : Colors.white,
         ),
         animation: Tween<double>(
           begin: begin,
@@ -157,9 +153,7 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
 
   Future<void> _openCamera(CameraDescription camera) async {
     final ResolutionPreset preset =
-        defaultTargetPlatform == TargetPlatform.android
-            ? ResolutionPreset.medium
-            : ResolutionPreset.low;
+        defaultTargetPlatform == TargetPlatform.android ? ResolutionPreset.medium : ResolutionPreset.low;
 
     _cameraController = CameraController(camera, preset, enableAudio: false);
     await _cameraController.initialize();
@@ -209,13 +203,10 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
     }
 
     final EdgeInsets padding = data.padding;
-    final double maxLogicalHeight =
-        data.size.height - padding.top - padding.bottom;
+    final double maxLogicalHeight = data.size.height - padding.top - padding.bottom;
 
     // Width & height are flipped from CameraController.previewSize on iOS
-    final double imageHeight = defaultTargetPlatform == TargetPlatform.iOS
-        ? imageSize.height
-        : imageSize.width;
+    final double imageHeight = defaultTargetPlatform == TargetPlatform.iOS ? imageSize.height : imageSize.width;
 
     final double imageScale = imageHeight / maxLogicalHeight;
     final double halfWidth = imageScale * widget.validRectangle.width / 2;
@@ -274,7 +265,7 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
     _barcodeDetector.close();
 
     SystemChrome.setPreferredOrientations(<DeviceOrientation>[]);
-    SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: <SystemUiOverlay>[
       SystemUiOverlay.top,
       SystemUiOverlay.bottom,
     ]);
@@ -323,8 +314,7 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
     final double logicalHeight = _previewSize.aspectRatio * logicalWidth;
 
     final EdgeInsets padding = data.padding;
-    final double maxLogicalHeight =
-        data.size.height - padding.top - padding.bottom;
+    final double maxLogicalHeight = data.size.height - padding.top - padding.bottom;
 
     return maxLogicalHeight / logicalHeight;
   }
@@ -350,7 +340,7 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
                     '1 result found',
                     // TODO(bmparr): Switch body2 -> bodyText1 once https://github.com/flutter/flutter/pull/48547 makes it to stable.
                     // ignore: deprecated_member_use
-                    style: Theme.of(context).textTheme.body2,
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
               ),
@@ -380,24 +370,22 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
                                     'SPAN Reader',
                                     // TODO(bmparr): Switch body2 -> bodyText1 once https://github.com/flutter/flutter/pull/48547 makes it to stable.
                                     // ignore: deprecated_member_use
-                                    style: Theme.of(context).textTheme.body2,
+                                    style: Theme.of(context).textTheme.bodyText1,
                                   ),
                                 ),
                                 Text(
                                   'Vol. 2',
                                   // TODO(bmparr): Switch body2 -> bodyText1 once https://github.com/flutter/flutter/pull/48547 makes it to stable.
                                   // ignore: deprecated_member_use
-                                  style: Theme.of(context).textTheme.body2,
+                                  style: Theme.of(context).textTheme.bodyText1,
                                 ),
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 3),
+                                        margin: const EdgeInsets.only(bottom: 3),
                                         child: const Text('Material Design'),
                                       ),
                                       const Text('120 pages'),
@@ -477,8 +465,7 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
           ),
         ),
       );
-    } else if (_cameraController != null &&
-        _cameraController.value.isInitialized) {
+    } else if (_cameraController != null && _cameraController.value.isInitialized) {
       background = _buildCameraPreview();
     } else {
       background = Container(
@@ -495,13 +482,10 @@ class _MaterialBarcodeScannerState extends State<MaterialBarcodeScanner>
               constraints: const BoxConstraints.expand(),
               child: CustomPaint(
                 painter: WindowPainter(
-                  windowSize: Size(widget.validRectangle.width,
-                      widget.validRectangle.height),
+                  windowSize: Size(widget.validRectangle.width, widget.validRectangle.height),
                   outerFrameColor: widget.frameColor,
                   closeWindow: _closeWindow,
-                  innerFrameColor: _currentState == AnimationState.endSearch
-                      ? Colors.transparent
-                      : kShrineFrameBrown,
+                  innerFrameColor: _currentState == AnimationState.endSearch ? Colors.transparent : kShrineFrameBrown,
                 ),
               ),
             ),
@@ -600,8 +584,7 @@ class WindowPainter extends CustomPainter {
       center.dy + windowHalfHeight,
     );
 
-    final Rect left =
-        Rect.fromLTRB(0, windowRect.top, windowRect.left, windowRect.bottom);
+    final Rect left = Rect.fromLTRB(0, windowRect.top, windowRect.left, windowRect.bottom);
     final Rect top = Rect.fromLTRB(0, 0, size.width, windowRect.top);
     final Rect right = Rect.fromLTRB(
       windowRect.right,
@@ -635,8 +618,7 @@ class WindowPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(WindowPainter oldDelegate) =>
-      oldDelegate.closeWindow != closeWindow;
+  bool shouldRepaint(WindowPainter oldDelegate) => oldDelegate.closeWindow != closeWindow;
 }
 
 class Rectangle {
@@ -663,8 +645,7 @@ class Rectangle {
 }
 
 class RectangleTween extends Tween<Rectangle> {
-  RectangleTween(Rectangle begin, Rectangle end)
-      : super(begin: begin, end: end);
+  RectangleTween(Rectangle begin, Rectangle end) : super(begin: begin, end: end);
 
   @override
   Rectangle lerp(double t) => Rectangle.lerp(begin, end, t);

@@ -24,17 +24,17 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.google.android.gms.strict-version-matcher-plugin'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 24
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         disable 'InvalidPackage'
     }
     dependencies {
-        implementation 'com.google.mlkit:barcode-scanning:16.2.0'
+        implementation 'com.google.mlkit:barcode-scanning:17.0.2'
     }
 }
 
