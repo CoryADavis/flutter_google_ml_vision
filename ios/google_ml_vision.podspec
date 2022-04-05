@@ -20,7 +20,7 @@ Plugin for Google ML Kit
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.platform = :ios, '11.0'
+  s.platform = :ios, '12.0'
   s.dependency 'GoogleMLKit/BarcodeScanning', '~> 2.6.0'
   # s.dependency 'GoogleMLKit/FaceDetection', '~> 2.2.0'
   # s.dependency 'GoogleMLKit/ImageLabeling', '~> 2.2.0'
